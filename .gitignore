@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+inst/doc
+.DS_Store
+
+
+# Test
+/.ipynb_checkpoints
+aclimate_api.ipynb
