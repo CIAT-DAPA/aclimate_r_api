@@ -4,11 +4,11 @@ Title: AClimate R API Package
 Version: 0.1.0
 Date: 2023-11-15
 Authors@R: person("Steven", "Sotelo", email = "stevenbetancurt@hotmail.com",role = c("aut", "cre"))
-Description: R Package which gets access to data of the AClimate Platform.
-URL: https://github.com/CIAT-DAPA/aclimate_rapi/
-BugReports: https://github.com/CIAT-DAPA/aclimate_rapi/issues/
+Description: The AClimate R API package is a comprehensive R interface for accessing the AClimate Web API.
+URL: https://github.com/CIAT-DAPA/aclimate_r_api/
+BugReports: https://github.com/CIAT-DAPA/aclimate_r_api/issues/
 License: MIT + file LICENSE
-Depends: R (>= 3.1)
+Depends: R (>= 4.2)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3

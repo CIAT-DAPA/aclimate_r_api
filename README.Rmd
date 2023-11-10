@@ -22,7 +22,7 @@ The AClimate R API package is a comprehensive R interface for accessing the ACli
 This package seamlessly integrates with R, providing users with convenient access to a wide range of agro-climatic
 forecasts offered by the AClimate platform.
 
-Browse its [source code](https://github.com/CIAT-DAO/aclimate_rapi/).
+Browse its [source code](https://github.com/CIAT-DAO/aclimate_r_api/).
 
 ## Key Features
 
@@ -34,10 +34,10 @@ Browse its [source code](https://github.com/CIAT-DAO/aclimate_rapi/).
 
 ## Install
 
-The easiest way to install the package is from [Github repository](https://github.com/CIAT-DAPA/aclimate_rapi/) and using devtools.
+The easiest way to install the package is from [Github repository](https://github.com/CIAT-DAPA/aclimate_r_api/) and using devtools.
 
 ```{r}
-devtools::install_github("CIAT-DAPA/aclimate_rapi")
+devtools::install_github("CIAT-DAPA/aclimate_r_api")
 ```
 
 The above command, when executed in R, downloads and installs the `AClimate R API` from official repository `CIAT-DAPA`.
@@ -47,7 +47,7 @@ The above command, when executed in R, downloads and installs the `AClimate R AP
 The easiest way to remove the package is:
 
 ```{r}
-remove.packages("aclimate_rapi")
+remove.packages("aclimate_r_api")
 ```
 
 ## How to use
@@ -59,7 +59,7 @@ The following list are recommendations which should be take into account when yo
 Once you have installed the library, you should import it in order to get access to all functions
 
 ```{r}
-library("aclimate_rapi")
+library("aclimate_r_api")
 ```
 
 ### Url of the Web API
@@ -118,8 +118,32 @@ print(head(df))
 
 ## Developer
 
+
+### Configure dev environment
+
+Install the following packages
 ```{r}
 install.packages("devtools")
-setwd("D:/CIAT/Code/USAID/aclimate_rapi")
+install.packages("roxygen2")
+```
+
+### Build package
+Import libraries
+```{r}
 library(devtools)
+library(roxygen2)
+```
+Call the packages
+```{r}
+setwd("/path/source_code/")
+```
+
+Build documentation
+```{r}
+devtools::document()
+```
+
+Build package
+```{r}
+devtools::build()
 ```
