@@ -18,7 +18,7 @@ A data.frame, with the crop forecast result for the weather stations.
 function which gets the crop forecast for a set of weather stations available into the aclimate platform
 }
 \examples{
-url_root = "https://pronosticosapi.aclimatecolombia.org/api/"
+url_root = "https://webapi.aclimate.org/api/"
 stations=c("58504f1a006cb93ed40eebe2","58504f1a006cb93ed40eebe3")
 df = get_forecast_crop(url_root, stations)
 print(head(df))

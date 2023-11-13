@@ -9,16 +9,16 @@ get_forecast_climate(url_root, stations)
 \arguments{
 \item{url_root}{Url root where the API is located.}
 
-\item{stations}{Array of strings with the ids of the weather stations which want to search.}
+\item{stations}{Array of strings with the ids of the weather stations.}
 }
 \value{
 A List with 3 attributes (probabilities, performance, scenarios).
 }
 \description{
-function which gets the climate forecast for a set of weather stations available into the aclimate platform
+Retrieve forecast process details, probabilities, and climatic scenarios using the HTTP GET method. This endpoint offers comprehensive information derived from the forecasting process, enabling users to access valuable insights into probabilities and climatic scenarios.
 }
 \examples{
-url_root = "https://pronosticosapi.aclimatecolombia.org/api/"
+url_root = "https://webapi.aclimate.org/api/"
 stations=c("58504f1a006cb93ed40eebe2","58504f1a006cb93ed40eebe3")
 obj_f = get_forecast_climate(url_root, stations)
 print(obj_f)
