@@ -91,18 +91,21 @@ get_geographic_crop = function(url_root, country_id){
     library(rjson)
     httr::set_config(config(ssl_verifypeer = 0L))
     # Downloading data
-    url = paste0(url_root,"Geographic/Crop",country_id,"/json")
+    url = paste0(url_root,"Geographic/Crop/",country_id,"/json")
     request = GET(url)
     response = content(request, as = "text", encoding = "UTF-8")
     data = fromJSON(response)
     df = do.call(rbind,
-                    lapply(data,function(s){
-                        do.call(rbind,lapply(s$municipalities,function(m){
-                            do.call(rbind,lapply(m$weather_stations,function(w){
-                                data.frame(country_id=s$country["id"],country_iso2=s$country["iso2"],country_name=s$country["name"],
-                                            state_id=s$id, state_name=s$name,
-                                            municipality_id=m$id, municipality_name=m$name,
-                                            ws_id=w$id, ws_ext_id=w$ext_id, ws_name=w$name, ws_origin=w$origin, ws_lat=w$latitude, ws_lon=w$longitude)
+                    lapply(data,function(c){
+                        do.call(rbind,lapply(c$states,function(s){
+                            do.call(rbind,lapply(s$municipalities,function(m){
+                                do.call(rbind,lapply(m$weather_stations,function(w){
+                                    data.frame(crop_id=c$id,crop_name=c$name,
+                                                country_id=s$country["id"],country_iso2=s$country["iso2"],country_name=s$country["name"],
+                                                state_id=s$id, state_name=s$name,
+                                                municipality_id=m$id, municipality_name=m$name,
+                                                ws_id=w$id, ws_ext_id=w$ext_id, ws_name=w$name, ws_origin=w$origin, ws_lat=w$latitude, ws_lon=w$longitude)
+                                }))
                             }))
                         }))
                     }))
