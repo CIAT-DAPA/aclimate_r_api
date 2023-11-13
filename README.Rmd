@@ -22,7 +22,7 @@ The AClimate R API package is a comprehensive R interface for accessing the ACli
 This package seamlessly integrates with R, providing users with convenient access to a wide range of agro-climatic
 forecasts offered by the AClimate platform.
 
-Browse its [source code](https://github.com/CIAT-DAO/aclimate_r_api/).
+Browse its [source code](https://github.com/CIAT-DAO/aclimaterapi/).
 
 ## Key Features
 
@@ -34,10 +34,10 @@ Browse its [source code](https://github.com/CIAT-DAO/aclimate_r_api/).
 
 ## Install
 
-The easiest way to install the package is from [Github repository](https://github.com/CIAT-DAPA/aclimate_r_api/) and using devtools.
+The easiest way to install the package is from [Github repository](https://github.com/CIAT-DAPA/aclimaterapi/) and using devtools.
 
 ```{r}
-devtools::install_github("CIAT-DAPA/aclimate_r_api")
+devtools::install_github("CIAT-DAPA/aclimaterapi")
 ```
 
 The above command, when executed in R, downloads and installs the `AClimate R API` from official repository `CIAT-DAPA`.
@@ -47,7 +47,7 @@ The above command, when executed in R, downloads and installs the `AClimate R AP
 The easiest way to remove the package is:
 
 ```{r}
-remove.packages("aclimate_r_api")
+remove.packages("aclimaterapi")
 ```
 
 ## How to use
@@ -59,7 +59,7 @@ The following list are recommendations which should be take into account when yo
 Once you have installed the library, you should import it in order to get access to all functions
 
 ```{r}
-library("aclimate_r_api")
+library("aclimaterapi")
 ```
 
 ### Url of the Web API
@@ -74,12 +74,21 @@ url_root = "https://webapi.aclimate.org/api/"
 
 ## Functions
 
-### Get weather stations
+### Get countries
 
-The method **get_ws** allows to users get a list of all weather stations available in the system.
+The method **get_geographic_country** allows to users get a list of all countries.
 
 ```{r}
-df = get_ws(url_root)
+df = get_geographic_country(url_root)
+print(head(df))
+```
+
+### Get weather stations
+
+The method **get_geographic** allows to users get a list of all weather stations available in the system.
+
+```{r}
+df = get_geographic(url_root)
 print(head(df))
 ```
 
