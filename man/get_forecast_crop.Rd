@@ -9,13 +9,13 @@ get_forecast_crop(url_root, stations)
 \arguments{
 \item{url_root}{Url root where the API is located.}
 
-\item{stations}{Array of strings with the ids of the weather stations which want to search.}
+\item{stations}{Array of strings with the ids of the weather stations.}
 }
 \value{
 A data.frame, with the crop forecast result for the weather stations.
 }
 \description{
-function which gets the crop forecast for a set of weather stations available into the aclimate platform
+ccess yield data obtained through the crop model process using the HTTP GET method. This endpoint provides valuable information on crop yields, offering insights derived from the crop model process.
 }
 \examples{
 url_root = "https://webapi.aclimate.org/api/"
