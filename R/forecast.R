@@ -57,10 +57,10 @@ get_forecast_climate = function(url_root, stations){
 
 #' Get crop forecast
 #'
-#' @description function which gets the crop forecast for a set of weather stations available into the aclimate platform
+#' @description ccess yield data obtained through the crop model process using the HTTP GET method. This endpoint provides valuable information on crop yields, offering insights derived from the crop model process.
 #'
 #' @param url_root Url root where the API is located.
-#' @param stations Array of strings with the ids of the weather stations which want to search.
+#' @param stations Array of strings with the ids of the weather stations.
 #'
 #' @return A data.frame, with the crop forecast result for the weather stations.
 #'
@@ -81,7 +81,7 @@ get_forecast_crop = function(url_root, stations){
     request = GET(url)
     response = content(request, as = "text", encoding = "UTF-8")
     data = fromJSON(response)
-    df = do.call(rbind,  
+    df = do.call(rbind,
                     lapply(data$yield,function(w){
                         do.call(rbind,lapply(w$yield,function(wy){
                             do.call(rbind,lapply(wy$data,function(y){

@@ -94,7 +94,7 @@ print(head(df))
 
 ### Get agronomy setup
 
-The method **get_agronomy** allows to users get a list of cultivars and soils available into the aclimate platform.
+The method **get_agronomy** allows to users get a list of cultivars and soils available into the AClimate platform.
 
 ```{r}
 obj_f = get_agronomy(url_root)
@@ -103,21 +103,23 @@ print(obj_f)
 
 ### Get climate forecast
 
-The method **get_forecast_climate**, function which gets the forecast climate for a set of weather stations available into the aclimate platform.
+The method **get_forecast_climate**, function which gets the forecast climate for a set of weather stations available into the AClimate platform.
 
-You can find the ids of the weather stations in the method **get_ws**
+You can find the ids of the weather stations in the method **get_geographic**
 
 ```{r}
 stations=c("58504f1a006cb93ed40eebe2","58504f1a006cb93ed40eebe3")
 obj_f = get_forecast_climate(url_root, stations)
-print(obj_f)
+print(obj_f$probabilities)
+print(obj_f$performance)
+print(obj_f$scenarios)
 ```
 
 ### Get crop forecast
 
-The method **get_forecast_crop**, function which gets the crop forecast for a set of weather stations available into the aclimate platform.
+The method **get_forecast_crop**, function which gets the crop forecast for a set of weather stations available into the AClimate platform.
 
-You can find the ids of the weather stations in the method **get_ws**
+You can find the ids of the weather stations in the method **get_geographic**
 
 ```{r}
 stations=c("58504f1a006cb93ed40eebe2","58504f1a006cb93ed40eebe3")
