@@ -60,7 +60,7 @@ get_geographic = function(url_root, country_id){
                     lapply(data,function(s){
                         do.call(rbind,lapply(s$municipalities,function(m){
                             do.call(rbind,lapply(m$weather_stations,function(w){
-                                data.frame(country_id=s$country[0],country_iso2=s$country[1],country_name=s$country[2],
+                                data.frame(country_id=s$country[1],country_iso2=s$country[2],country_name=s$country[3],
                                             state_id=s$id, state_name=s$name,
                                             municipality_id=m$id, municipality_name=m$name,
                                             ws_id=w$id, ws_ext_id=w$ext_id, ws_name=w$name, ws_origin=w$origin, ws_lat=w$latitude, ws_lon=w$longitude)

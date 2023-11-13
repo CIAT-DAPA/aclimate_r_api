@@ -20,7 +20,7 @@ Retrieve detailed information on states, municipalities, weather stations, and c
 \examples{
 url_root = "https://webapi.aclimate.org/api/"
 country = "61e59d829d5d2486e18d2ea8"
-df = get_ws(url_root,country)
+df = get_geographic(url_root,country)
 print(head(df))
 
 }
