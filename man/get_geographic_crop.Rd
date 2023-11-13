@@ -20,7 +20,7 @@ Access crop-grouped data for states, municipalities, and meteorological stations
 \examples{
 url_root = "https://webapi.aclimate.org/api/"
 country = "61e59d829d5d2486e18d2ea8"
-df = get_ws(url_root,country)
+df = get_geographic_crop(url_root,country)
 print(head(df))
 
 }
