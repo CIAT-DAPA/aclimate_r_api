@@ -60,7 +60,7 @@ get_geographic = function(url_root, country_id){
                     lapply(data,function(s){
                         do.call(rbind,lapply(s$municipalities,function(m){
                             do.call(rbind,lapply(m$weather_stations,function(w){
-                                data.frame(country_id=s$country[1],country_iso2=s$country[2],country_name=s$country[3],
+                                data.frame(country_id=s$country["id"],country_iso2=s$country["iso2"],country_name=s$country["name"],
                                             state_id=s$id, state_name=s$name,
                                             municipality_id=m$id, municipality_name=m$name,
                                             ws_id=w$id, ws_ext_id=w$ext_id, ws_name=w$name, ws_origin=w$origin, ws_lat=w$latitude, ws_lon=w$longitude)
@@ -82,7 +82,7 @@ get_geographic = function(url_root, country_id){
 #' @examples
 #' url_root = "https://webapi.aclimate.org/api/"
 #' country = "61e59d829d5d2486e18d2ea8"
-#' df = get_ws(url_root,country)
+#' df = get_geographic_crop(url_root,country)
 #' print(head(df))
 #'
 #' @export
@@ -99,7 +99,7 @@ get_geographic_crop = function(url_root, country_id){
                     lapply(data,function(s){
                         do.call(rbind,lapply(s$municipalities,function(m){
                             do.call(rbind,lapply(m$weather_stations,function(w){
-                                data.frame(country_id=s$country[0],country_iso2=s$country[1],country_name=s$country[2],
+                                data.frame(country_id=s$country["id"],country_iso2=s$country["iso2"],country_name=s$country["name"],
                                             state_id=s$id, state_name=s$name,
                                             municipality_id=m$id, municipality_name=m$name,
                                             ws_id=w$id, ws_ext_id=w$ext_id, ws_name=w$name, ws_origin=w$origin, ws_lat=w$latitude, ws_lon=w$longitude)
