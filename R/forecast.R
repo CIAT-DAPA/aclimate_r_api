@@ -57,7 +57,7 @@ get_forecast_climate = function(url_root, stations){
 
 #' Get crop forecast
 #'
-#' @description ccess yield data obtained through the crop model process using the HTTP GET method. This endpoint provides valuable information on crop yields, offering insights derived from the crop model process.
+#' @description Access yield data obtained through the crop model process using the HTTP GET method. This endpoint provides valuable information on crop yields, offering insights derived from the crop model process.
 #'
 #' @param url_root Url root where the API is located.
 #' @param stations Array of strings with the ids of the weather stations.

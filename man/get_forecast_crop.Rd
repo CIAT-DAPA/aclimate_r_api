@@ -15,7 +15,7 @@ get_forecast_crop(url_root, stations)
 A data.frame, with the crop forecast result for the weather stations.
 }
 \description{
-ccess yield data obtained through the crop model process using the HTTP GET method. This endpoint provides valuable information on crop yields, offering insights derived from the crop model process.
+Access yield data obtained through the crop model process using the HTTP GET method. This endpoint provides valuable information on crop yields, offering insights derived from the crop model process.
 }
 \examples{
 url_root = "https://webapi.aclimate.org/api/"
