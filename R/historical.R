@@ -59,7 +59,7 @@ get_historical_historicalclimatic = function(url_root, stations){
     httr::set_config(config(ssl_verifypeer = 0L))
     # Download data
     ws = paste(stations,collapse=",")
-    url = paste0(url_root,"Historical/Climatology/",ws,"/json")
+    url = paste0(url_root,"Historical/HistoricalClimatic/",ws,"/json")
     request = GET(url)
     response = content(request, as = "text", encoding = "UTF-8")
     data = fromJSON(response)
