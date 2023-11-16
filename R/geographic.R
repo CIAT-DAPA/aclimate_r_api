@@ -96,12 +96,12 @@ get_geographic_crop = function(url_root, country_id){
     response = content(request, as = "text", encoding = "UTF-8")
     data = fromJSON(response)
     df = do.call(rbind,
-                    lapply(data,function(c){
-                        do.call(rbind,lapply(c$states,function(s){
+                    lapply(data,function(cr){
+                        do.call(rbind,lapply(cr$states,function(s){
                             do.call(rbind,lapply(s$municipalities,function(m){
                                 do.call(rbind,lapply(m$weather_stations,function(w){
-                                    data.frame(crop_id=c$id,crop_name=c$name,
-                                                country_id=s$country["id"],country_iso2=s$country["iso2"],country_name=s$country["name"],
+                                    data.frame(crop_id=cr$id,crop_name=cr$name,
+                                                country_iso2=s$country["iso2"],country_name=s$country["name"],
                                                 state_id=s$id, state_name=s$name,
                                                 municipality_id=m$id, municipality_name=m$name,
                                                 ws_id=w$id, ws_ext_id=w$ext_id, ws_name=w$name, ws_origin=w$origin, ws_lat=w$latitude, ws_lon=w$longitude)
