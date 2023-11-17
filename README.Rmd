@@ -22,7 +22,8 @@ The AClimate R API package is a comprehensive R interface for accessing the ACli
 This package seamlessly integrates with R, providing users with convenient access to a wide range of agro-climatic
 forecasts offered by the AClimate platform.
 
-Browse its [source code](https://github.com/CIAT-DAPA/aclimaterapi/).
+Source code [source code](https://github.com/CIAT-DAPA/aclimaterapi/).
+Documentation of Web API and Dictionary of variable [documentation](https://docs.aclimate.org/en/latest/08-webapi.html).
 
 ## Key Features
 
@@ -97,8 +98,8 @@ print(head(df))
 The method **get_agronomy** allows to users get a list of cultivars and soils available into the AClimate platform.
 
 ```{r}
-obj_f = get_agronomy(url_root)
-print(obj_f)
+df = get_agronomy(url_root)
+print(df)
 ```
 
 ### Get climate forecast

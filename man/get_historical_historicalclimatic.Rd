@@ -20,7 +20,7 @@ Retrieve the weather history of a selected weather station using the HTTP GET me
 \examples{
 url_root = "https://webapi.aclimate.org/api/"
 stations=c("58504f1a006cb93ed40eebe2","58504f1a006cb93ed40eebe3")
-obj_f = get_historical_historicalclimatic(url_root, stations)
-print(obj_f)
+df = get_historical_historicalclimatic(url_root, stations)
+print(df)
 
 }
