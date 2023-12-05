@@ -7,9 +7,11 @@ The AClimate R API package is a comprehensive R interface for accessing the ACli
 This package seamlessly integrates with R, providing users with convenient access to a wide range of agro-climatic
 forecasts offered by the AClimate platform.
 
-Source code [source code](https://github.com/CIAT-DAPA/aclimaterapi/).
-Documentation of Web API and Dictionary of variable [documentation](https://docs.aclimate.org/en/latest/08-webapi.html).
-
+* [Oficial website](https://www.aclimate.org).
+* Source code [source code](https://github.com/CIAT-DAPA/aclimaterapi/).
+* Documentation of Web API and Dictionary of variable [documentation](https://docs.aclimate.org/en/latest/08-webapi.html).
+* Depends **R (>= 4.2)**
+* Author [stevensotelo](https://github.com/stevensotelo)
 
 ## Key Features
 
