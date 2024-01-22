@@ -4,7 +4,7 @@
 \alias{get_historical_historicalyield}
 \title{Get historical crop performance}
 \usage{
-get_historical_historicalyield(url_root, stations)
+get_historical_historicalyield(url_root, stations, years)
 }
 \arguments{
 \item{url_root}{Url root where the API is located.}
@@ -20,7 +20,8 @@ Access yield data obtained through the crop model process using the HTTP GET met
 \examples{
 url_root = "https://webapi.aclimate.org/api/"
 stations=c("58504f1a006cb93ed40eebe2","58504f1a006cb93ed40eebe3")
-df = get_forecast_crop(url_root, stations)
+years=c("2022","2023")
+df = get_historical_historicalyield(url_root, stations, years)
 print(head(df))
 
 }

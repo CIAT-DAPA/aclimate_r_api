@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' url_root = "https://webapi.aclimate.org/api/"
-#' df = get_countries(url_root)
+#' df = get_geographic_country(url_root)
 #' print(head(df))
 #'
 #' @export
@@ -56,6 +56,7 @@ get_geographic = function(url_root, country_id){
     request = GET(url)
     response = content(request, as = "text", encoding = "UTF-8")
     data = fromJSON(response)
+
     df = do.call(rbind,
                     lapply(data,function(s){
                         do.call(rbind,lapply(s$municipalities,function(m){
@@ -110,4 +111,34 @@ get_geographic_crop = function(url_root, country_id){
                         }))
                     }))
     return (df)
+}
+
+
+
+#' Get weather stations
+#'
+#' @description Retrieve detailed information weather stations, and crop-related details for a selected country. This endpoint, using the HTTP GET method, supports localized decision-making in agriculture.
+#'
+#' @param url_root Url root where the API is located.
+#' @param country_id Id of the country
+#'
+#' @return A list, with the list of all weather stations.
+#'
+#' @examples
+#' url_root = "https://webapi.aclimate.org/api/"
+#' country = "61e59d829d5d2486e18d2ea8"
+#' ws_list = get_geographic_ws(url_root,country)
+#' print(head(ws_list))
+#'
+#' @export
+get_geographic_ws = function(url_root, country_id){
+    library(httr)
+    library(rjson)
+    httr::set_config(config(ssl_verifypeer = 0L))
+    # Downloading data
+    url = paste0(url_root,"Geographic/",country_id,"/WeatherStations","/json")
+    request = GET(url)
+    response = content(request, as = "text", encoding = "UTF-8")
+    data = fromJSON(response)
+    return (data)
 }
