@@ -21,13 +21,10 @@ jobs:
       steps:
 
       - name: List files
-        run: |
-          cd ${{ github.workspace }}
-          ls
-        shell: bash
+        run: ls
           
       - name: Set
-        run: echo cd ${{ github.workspace }}
+        run: cd ${{ github.workspace }}
       - name: Set env1
         run: ls
       - name: Set env2
