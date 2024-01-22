@@ -95,22 +95,7 @@ jobs:
     steps:
     - name: Usar Variable de Entorno
       run: |
-        echo "La etiqueta generada es: $NEW_TAG"
-    # update version DESCRIPTION
-    - name: Checkout code
-      uses: actions/checkout@v3
-      with:
-        ref: master
-    - name: Update version
-      run: |
-        sed -i "s/Version: .*/Version: '$NEW_TAG'/" DESCRIPTION
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Commit changes
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: "Update version to $NEW_TAG"
-
+        echo "La etiqueta generada es: '$NEW_TAG'"
     - name: Set up R
       uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
       with:
@@ -120,6 +105,11 @@ jobs:
       run: |
         install.packages(c("httr", "rjson", "devtools", "roxygen2"))
       shell: Rscript {0}
+      
+    - name: Update version in DESCRIPTION
+      run: |
+        sed -i "s/Version: .*/Version: '0.1.1'/" DESCRIPTION
+      shell: /bin/bash -e {0}
 
     - name: Run Build
       run: |
