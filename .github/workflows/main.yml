@@ -53,6 +53,10 @@ jobs:
       new_tag: ${{ steps.new_tag_step.outputs.new_tag }}
 
     steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: '0'
     - name: Generate TagName
       id: taggerDryRun
       uses: anothrNick/github-tag-action@1.61.0
@@ -63,7 +67,6 @@ jobs:
         DEFAULT_BUMP: patch
         RELEASE_BRANCHES : stage,master
         BRANCH_HISTORY: last
-        INITIAL_VERSION: 0.1.1
 
     - name: Set env
       id: new_tag_step
