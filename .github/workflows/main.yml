@@ -93,6 +93,9 @@ jobs:
     runs-on: macos-latest
     permissions: write-all
     steps:
+    - name: Usar Variable de Entorno
+      run: |
+        echo "La etiqueta generada es: $NEW_TAG"
     # update version DESCRIPTION
     - name: Checkout code
       uses: actions/checkout@v3
@@ -100,7 +103,7 @@ jobs:
         ref: master
     - name: Update version
       run: |
-        /bin/bash -e -c "sed -i 's/Version: .*/Version: \"$NEW_TAG\"/' DESCRIPTION"
+        sed -i "s/Version: .*/Version: '$NEW_TAG'/" DESCRIPTION
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Commit changes
