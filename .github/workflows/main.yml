@@ -65,16 +65,13 @@ jobs:
 
 # ------- END MERGE PROCCESS -------- #
 
-# ------- START RELEASE PROCCESS -------- #
-
-  PostRelease:
+  GenerateTagName:
     needs: MergeMainScripts
-    name: Create Release
-    runs-on: macos-latest
-    permissions: write-all
+    name: Generate TagName and Set env
+    runs-on: ubuntu-latest
+
     steps:
-    # Generate Tagname
-    - name: Generate Tagname for release
+    - name: Generate TagName
       id: taggerDryRun
       uses: anothrNick/github-tag-action@1.61.0
       env:
@@ -84,6 +81,18 @@ jobs:
         DEFAULT_BUMP: patch
         RELEASE_BRANCHES : stage,master
         BRANCH_HISTORY: last
+
+    - name: Set env
+      run: echo "NEW_TAG=${{ steps.taggerDryRun.outputs.new_tag }}" >> $GITHUB_ENV
+
+# ------- START RELEASE PROCCESS -------- #
+
+  PostRelease:
+    needs: GenerateTagName
+    name: Create Release
+    runs-on: macos-latest
+    permissions: write-all
+    steps:
     # update version DESCRIPTION
     - name: Checkout code
       uses: actions/checkout@v3
@@ -91,13 +100,13 @@ jobs:
         ref: master
     - name: Update version
       run: |
-        sed -i "s/Version: .*/Version: '${{ steps.taggerDryRun.outputs.new_tag }}'/" DESCRIPTION
+        sed -i "s/Version: .*/Version: '$NEW_TAG'/" DESCRIPTION
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Commit changes
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: "Update version to ${{ steps.taggerDryRun.outputs.new_tag }}"
+        commit_message: "Update version to $NEW_TAG"
 
     - name: Set up R
       uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
@@ -142,7 +151,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Upload artifact
-        path: aclimaterapi_${{ steps.taggerDryRun.outputs.new_tag }}.tar.gz
+        path: aclimaterapi_$NEW_TAG.tar.gz
     # Create release
     - name: Create Release
       id: create_release
@@ -150,8 +159,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
-        tag_name: ${{ steps.taggerDryRun.outputs.new_tag }}
-        release_name: Release ${{ steps.taggerDryRun.outputs.new_tag }}
+        tag_name: $NEW_TAG
+        release_name: Release $NEW_TAG
         #body_path: ./body.md
         body: ${{ github.event.head_commit.message }}
         draft: false
@@ -164,8 +173,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./aclimaterapi_${{ steps.taggerDryRun.outputs.new_tag }}.tar.gz
-        asset_name: aclimaterapi_${{ steps.taggerDryRun.outputs.new_tag }}.tar.gz
+        asset_path: ./aclimaterapi_$NEW_TAG.tar.gz
+        asset_name: aclimaterapi_$NEW_TAG.tar.gz
         asset_content_type: application/gzip
 
 # ------- END RELEASE PROCCESS -------- #
