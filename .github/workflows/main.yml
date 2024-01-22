@@ -70,7 +70,7 @@ jobs:
     name: Generate TagName and Set env
     runs-on: ubuntu-latest
     outputs:
-      build_id: ${{ steps.new_tag_step.outputs.new_tag }}
+      new_tag: ${{ steps.new_tag_step.outputs.new_tag }}
 
     steps:
     - name: Generate TagName
