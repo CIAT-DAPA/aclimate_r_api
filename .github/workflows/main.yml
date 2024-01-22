@@ -20,8 +20,10 @@ jobs:
       runs-on: ubuntu-latest
       steps:
 
-      - name: Set env
-        run: ls
+      - name: List files
+        run: |
+          ls -al | tee output.txt
+          cat output.txt
         shell: bash
           
       - name: Set
