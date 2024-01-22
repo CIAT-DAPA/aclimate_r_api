@@ -123,31 +123,6 @@ jobs:
         devtools::document()
         devtools::build(path = "./")
       shell: Rscript {0}
-    - name: Commit Changes to stage branch
-      run: |
-        git checkout stage
-        git pull origin stage --rebase
-        git add man/
-        git add DESCRIPTION
-        git commit -m "GitHub Actions Update documentation"
-        git push origin stage
-
-    - name: Commit Changes to master branch
-      run: |
-        git checkout master
-        git pull origin master --rebase
-        git add man/
-        git add DESCRIPTION
-        git commit -m "GitHub Actions Update documentation"
-        git push origin master
-    - name: Push Changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: '0'
     # Upload Artifacts
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
@@ -178,5 +153,29 @@ jobs:
         asset_path: ./aclimaterapi_${{ needs.GenerateTagName.outputs.new_tag }}.tar.gz
         asset_name: aclimaterapi_${{ needs.GenerateTagName.outputs.new_tag }}.tar.gz
         asset_content_type: application/gzip
+
+    - name: Commit Changes to stage branch
+      run: |
+        git checkout stage
+        git add man/
+        git add DESCRIPTION
+        git commit -m "GitHub Actions Update documentation"
+        git push origin stage
+
+    - name: Commit Changes to master branch
+      run: |
+        git checkout master
+        git add man/
+        git add DESCRIPTION
+        git commit -m "GitHub Actions Update documentation"
+        git push origin master
+    - name: Push Changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: '0'
 
 # ------- END RELEASE PROCCESS -------- #
