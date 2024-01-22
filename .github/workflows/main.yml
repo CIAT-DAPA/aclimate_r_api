@@ -78,7 +78,7 @@ jobs:
       uses: anothrNick/github-tag-action@1.61.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: true
+        WITH_V: false
         DRY_RUN: true
         DEFAULT_BUMP: patch
         RELEASE_BRANCHES : stage,master
@@ -111,7 +111,7 @@ jobs:
         version <- ${{ needs.GenerateTagName.outputs.new_tag }}
         lines <- readLines("${{ github.workspace }}/DESCRIPTION")
         lines[grep("^Version:", lines)] <- paste0("Version: ", version)
-        writeLines(lines, "$${{ github.workspace }}/DESCRIPTION")
+        writeLines(lines, "${{ github.workspace }}/DESCRIPTION")
       shell: Rscript {0}
 
 
