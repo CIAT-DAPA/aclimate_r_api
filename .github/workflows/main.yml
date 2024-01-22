@@ -108,7 +108,7 @@ jobs:
 
     - name: Update version in DESCRIPTION
       run: |
-        version <- ${{ needs.GenerateTagName.outputs.new_tag }}
+        version <- "${{ needs.GenerateTagName.outputs.new_tag }}"
         lines <- readLines("${{ github.workspace }}/DESCRIPTION")
         lines[grep("^Version:", lines)] <- paste0("Version: ", version)
         writeLines(lines, "${{ github.workspace }}/DESCRIPTION")
