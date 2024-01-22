@@ -96,11 +96,6 @@ jobs:
     runs-on: macos-latest
     permissions: write-all
     steps:
-    - name: Usar Variable de Entorno
-      run: |
-        echo "La etiqueta generada es: ${{ needs.GenerateTagName.outputs.new_tag }}"
-        cd $${{ github.workspace }}
-        ls
     - name: Set up R
       uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
       with:
