@@ -45,34 +45,18 @@ jobs:
 
 # ------- END Scripts PROCCESS -------- #    
 
-# ------- START MERGE PROCCESS -------- #
-
-  MergeMainScripts:
-    needs: TestScripts
-    name: Merge Stage with master
-    permissions: write-all
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-
-      - name: Merge stage -> master
-        uses: devmasx/merge-branch@master
-        with:
-          type: now
-          head_to_merge: ${{ github.ref }}
-          target_branch: master
-          github_token: ${{ github.token }}
-
-# ------- END MERGE PROCCESS -------- #
-
   GenerateTagName:
-    needs: MergeMainScripts
+    needs: TestScripts
     name: Generate TagName and Set env
     runs-on: ubuntu-latest
     outputs:
       new_tag: ${{ steps.new_tag_step.outputs.new_tag }}
 
     steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: '0'
     - name: Generate TagName
       id: taggerDryRun
       uses: anothrNick/github-tag-action@1.61.0
@@ -83,7 +67,6 @@ jobs:
         DEFAULT_BUMP: patch
         RELEASE_BRANCHES : stage,master
         BRANCH_HISTORY: last
-        INITIAL_VERSION: 0.1.1
 
     - name: Set env
       id: new_tag_step
@@ -162,13 +145,6 @@ jobs:
         git commit -m "GitHub Actions Update documentation"
         git push origin stage
 
-    - name: Commit Changes to master branch
-      run: |
-        git checkout master
-        git add man/
-        git add DESCRIPTION
-        git commit -m "GitHub Actions Update documentation"
-        git push origin master
     - name: Push Changes
       uses: ad-m/github-push-action@master
       with:
@@ -179,3 +155,23 @@ jobs:
         fetch-depth: '0'
 
 # ------- END RELEASE PROCCESS -------- #
+
+# ------- START MERGE PROCCESS -------- #
+
+  MergeMainScripts:
+    needs: PostRelease
+    name: Merge Stage with master
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Merge stage -> master
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          head_to_merge: ${{ github.ref }}
+          target_branch: master
+          github_token: ${{ github.token }}
+
+# ------- END MERGE PROCCESS -------- #
