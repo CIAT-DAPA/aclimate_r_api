@@ -22,8 +22,8 @@ jobs:
 
       - name: List files
         run: |
-          ls -al | tee output.txt
-          cat output.txt
+          cd ${{ github.workspace }}
+          ls
         shell: bash
           
       - name: Set
