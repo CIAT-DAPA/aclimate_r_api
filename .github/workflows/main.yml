@@ -100,7 +100,7 @@ jobs:
         ref: master
     - name: Update version
       run: |
-        sed -i "s/Version: .*/Version: '$NEW_TAG'/" DESCRIPTION
+        /bin/bash -e -c "sed -i 's/Version: .*/Version: \"$NEW_TAG\"/' DESCRIPTION"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Commit changes
