@@ -23,7 +23,8 @@ jobs:
       - name: Set env
         run: echo "ls"
           
-          ls
+          ls -al
+        shell: bash
           
       - name: Set
         run: echo cd ${{ github.workspace }}
