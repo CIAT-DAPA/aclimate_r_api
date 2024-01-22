@@ -95,7 +95,7 @@ jobs:
     steps:
     - name: Usar Variable de Entorno
       run: |
-        echo "La etiqueta generada es: '$NEW_TAG'"
+        echo "La etiqueta generada es: ${{ env.NEW_TAG }}"
     - name: Set up R
       uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
       with:
@@ -105,11 +105,15 @@ jobs:
       run: |
         install.packages(c("httr", "rjson", "devtools", "roxygen2"))
       shell: Rscript {0}
-      
+
     - name: Update version in DESCRIPTION
       run: |
-        sed -i "s/Version: .*/Version: '0.1.1'/" DESCRIPTION
-      shell: /bin/bash -e {0}
+        version <- ${{ env.NEW_TAG }}
+        lines <- readLines("DESCRIPTION")
+        lines[grep("^Version:", lines)] <- paste0("Version: ", version)
+        writeLines(lines, "DESCRIPTION")
+      shell: Rscript {0}
+
 
     - name: Run Build
       run: |
@@ -121,6 +125,7 @@ jobs:
         git checkout stage
         git pull origin stage --rebase
         git add man/
+        git add DESCRIPTION
         git commit -m "GitHub Actions Update documentation"
         git push origin stage
 
@@ -129,6 +134,7 @@ jobs:
         git checkout master
         git pull origin master --rebase
         git add man/
+        git add DESCRIPTION
         git commit -m "GitHub Actions Update documentation"
         git push origin master
     - name: Push Changes
@@ -144,7 +150,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Upload artifact
-        path: aclimaterapi_$NEW_TAG.tar.gz
+        path: aclimaterapi_${{ env.NEW_TAG }}.tar.gz
     # Create release
     - name: Create Release
       id: create_release
@@ -152,8 +158,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
-        tag_name: $NEW_TAG
-        release_name: Release $NEW_TAG
+        tag_name: ${{ env.NEW_TAG }}
+        release_name: Release ${{ env.NEW_TAG }}
         #body_path: ./body.md
         body: ${{ github.event.head_commit.message }}
         draft: false
@@ -166,8 +172,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./aclimaterapi_$NEW_TAG.tar.gz
-        asset_name: aclimaterapi_$NEW_TAG.tar.gz
+        asset_path: ./aclimaterapi_${{ env.NEW_TAG }}.tar.gz
+        asset_name: aclimaterapi_${{ env.NEW_TAG }}.tar.gz
         asset_content_type: application/gzip
 
 # ------- END RELEASE PROCCESS -------- #
