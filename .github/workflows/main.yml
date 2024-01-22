@@ -15,166 +15,180 @@ permissions:
 
 jobs:
 
-# ------- START Scripts PROCCESS -------- #
+    TestScripts:
 
-  TestScripts:
+      runs-on: ubuntu-latest
+      steps:
 
-    runs-on: macos-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up R
-      uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
-      with:
-        r-version: "4.2"
-
-    - name: Install dependencies
-      run: |
-        install.packages(c("httr", "rjson", "webmockr", "testthat"))
-      shell: Rscript {0}
-
-    - name: Run Tests
-      run: |
-        library(testthat)
-        test_dir("tests");
-      shell: Rscript {0}
+      - name: Set env
+        id: test
+        run: |
+          ls
+          cd ${{ github.workspace }}
+          ls
+          [ -f ${{ github.workspace }}/DESCRIPTION ] && echo "DESCRIPTION exists."
 
 
+# # ------- START Scripts PROCCESS -------- #
 
-# ------- END Scripts PROCCESS -------- #    
+#   TestScripts:
 
-# ------- START MERGE PROCCESS -------- #
+#     runs-on: macos-latest
 
-  MergeMainScripts:
-    needs: TestScripts
-    name: Merge Stage with master
-    permissions: write-all
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
 
-      - name: Merge stage -> master
-        uses: devmasx/merge-branch@master
-        with:
-          type: now
-          head_to_merge: ${{ github.ref }}
-          target_branch: master
-          github_token: ${{ github.token }}
+#     - name: Set up R
+#       uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
+#       with:
+#         r-version: "4.2"
 
-# ------- END MERGE PROCCESS -------- #
+#     - name: Install dependencies
+#       run: |
+#         install.packages(c("httr", "rjson", "webmockr", "testthat"))
+#       shell: Rscript {0}
 
-  GenerateTagName:
-    needs: MergeMainScripts
-    name: Generate TagName and Set env
-    runs-on: ubuntu-latest
-    outputs:
-      new_tag: ${{ steps.new_tag_step.outputs.new_tag }}
-
-    steps:
-    - name: Generate TagName
-      id: taggerDryRun
-      uses: anothrNick/github-tag-action@1.61.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: false
-        DRY_RUN: true
-        DEFAULT_BUMP: patch
-        RELEASE_BRANCHES : stage,master
-        BRANCH_HISTORY: last
-        INITIAL_VERSION: 0.1.0
-
-    - name: Set env
-      id: new_tag_step
-      run: echo "new_tag=${{ steps.taggerDryRun.outputs.new_tag }}" >> $GITHUB_OUTPUT
-
-# ------- START RELEASE PROCCESS -------- #
-
-  PostRelease:
-    needs: GenerateTagName
-    name: Create Release
-    runs-on: macos-latest
-    permissions: write-all
-    steps:
-    - name: Set up R
-      uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
-      with:
-        r-version: "4.2"
-
-    - name: Install dependencies
-      run: |
-        install.packages(c("httr", "rjson", "devtools", "roxygen2"))
-      shell: Rscript {0}
-
-    - name: Update version in DESCRIPTION
-      run: |
-        version <- "${{ needs.GenerateTagName.outputs.new_tag }}"
-        lines <- readLines("${{ github.workspace }}/DESCRIPTION")
-        lines[grep("^Version:", lines)] <- paste0("Version: ", version)
-        writeLines(lines, "${{ github.workspace }}/DESCRIPTION")
-      shell: Rscript {0}
+#     - name: Run Tests
+#       run: |
+#         library(testthat)
+#         test_dir("tests");
+#       shell: Rscript {0}
 
 
-    - name: Run Build
-      run: |
-        devtools::document()
-        devtools::build(path = "./")
-      shell: Rscript {0}
-    - name: Commit Changes to stage branch
-      run: |
-        git checkout stage
-        git pull origin stage --rebase
-        git add man/
-        git add DESCRIPTION
-        git commit -m "GitHub Actions Update documentation"
-        git push origin stage
 
-    - name: Commit Changes to master branch
-      run: |
-        git checkout master
-        git pull origin master --rebase
-        git add man/
-        git add DESCRIPTION
-        git commit -m "GitHub Actions Update documentation"
-        git push origin master
-    - name: Push Changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: '0'
-    # Upload Artifacts
-    - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v3
-      with:
-        name: Upload artifact
-        path: aclimaterapi_${{ needs.GenerateTagName.outputs.new_tag }}.tar.gz
-    # Create release
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      with:
-        tag_name: ${{ needs.GenerateTagName.outputs.new_tag }}
-        release_name: Release ${{ needs.GenerateTagName.outputs.new_tag }}
-        #body_path: ./body.md
-        body: ${{ github.event.head_commit.message }}
-        draft: false
-        prerelease: false
-    # Upload Assets to release
-    - name: Upload Release Asset Scripts
-      id: upload-scripts-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./aclimaterapi_${{ needs.GenerateTagName.outputs.new_tag }}.tar.gz
-        asset_name: aclimaterapi_${{ needs.GenerateTagName.outputs.new_tag }}.tar.gz
-        asset_content_type: application/gzip
+# # ------- END Scripts PROCCESS -------- #    
 
-# ------- END RELEASE PROCCESS -------- #
+# # ------- START MERGE PROCCESS -------- #
+
+#   MergeMainScripts:
+#     needs: TestScripts
+#     name: Merge Stage with master
+#     permissions: write-all
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@master
+
+#       - name: Merge stage -> master
+#         uses: devmasx/merge-branch@master
+#         with:
+#           type: now
+#           head_to_merge: ${{ github.ref }}
+#           target_branch: master
+#           github_token: ${{ github.token }}
+
+# # ------- END MERGE PROCCESS -------- #
+
+#   GenerateTagName:
+#     needs: MergeMainScripts
+#     name: Generate TagName and Set env
+#     runs-on: ubuntu-latest
+#     outputs:
+#       new_tag: ${{ steps.new_tag_step.outputs.new_tag }}
+
+#     steps:
+#     - name: Generate TagName
+#       id: taggerDryRun
+#       uses: anothrNick/github-tag-action@1.61.0
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         WITH_V: false
+#         DRY_RUN: true
+#         DEFAULT_BUMP: patch
+#         RELEASE_BRANCHES : stage,master
+#         BRANCH_HISTORY: last
+#         INITIAL_VERSION: 0.1.0
+
+#     - name: Set env
+#       id: new_tag_step
+#       run: echo "new_tag=${{ steps.taggerDryRun.outputs.new_tag }}" >> $GITHUB_OUTPUT
+
+# # ------- START RELEASE PROCCESS -------- #
+
+#   PostRelease:
+#     needs: GenerateTagName
+#     name: Create Release
+#     runs-on: macos-latest
+#     permissions: write-all
+#     steps:
+#     - name: Set up R
+#       uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
+#       with:
+#         r-version: "4.2"
+
+#     - name: Install dependencies
+#       run: |
+#         install.packages(c("httr", "rjson", "devtools", "roxygen2"))
+#       shell: Rscript {0}
+
+#     - name: Update version in DESCRIPTION
+#       run: |
+#         version <- "${{ needs.GenerateTagName.outputs.new_tag }}"
+#         lines <- readLines("${{ github.workspace }}/DESCRIPTION")
+#         lines[grep("^Version:", lines)] <- paste0("Version: ", version)
+#         writeLines(lines, "${{ github.workspace }}/DESCRIPTION")
+#       shell: Rscript {0}
+
+
+#     - name: Run Build
+#       run: |
+#         devtools::document()
+#         devtools::build(path = "./")
+#       shell: Rscript {0}
+#     - name: Commit Changes to stage branch
+#       run: |
+#         git checkout stage
+#         git pull origin stage --rebase
+#         git add man/
+#         git add DESCRIPTION
+#         git commit -m "GitHub Actions Update documentation"
+#         git push origin stage
+
+#     - name: Commit Changes to master branch
+#       run: |
+#         git checkout master
+#         git pull origin master --rebase
+#         git add man/
+#         git add DESCRIPTION
+#         git commit -m "GitHub Actions Update documentation"
+#         git push origin master
+#     - name: Push Changes
+#       uses: ad-m/github-push-action@master
+#       with:
+#         github_token: ${{ secrets.GITHUB_TOKEN }}
+#         branch: ${{ github.ref }}
+#     - uses: actions/checkout@v3
+#       with:
+#         fetch-depth: '0'
+#     # Upload Artifacts
+#     - name: Upload artifact for deployment job
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: Upload artifact
+#         path: aclimaterapi_${{ needs.GenerateTagName.outputs.new_tag }}.tar.gz
+#     # Create release
+#     - name: Create Release
+#       id: create_release
+#       uses: actions/create-release@v1
+#       env:
+#         GITHUB_TOKEN: ${{ github.token }}
+#       with:
+#         tag_name: ${{ needs.GenerateTagName.outputs.new_tag }}
+#         release_name: Release ${{ needs.GenerateTagName.outputs.new_tag }}
+#         #body_path: ./body.md
+#         body: ${{ github.event.head_commit.message }}
+#         draft: false
+#         prerelease: false
+#     # Upload Assets to release
+#     - name: Upload Release Asset Scripts
+#       id: upload-scripts-release-asset 
+#       uses: actions/upload-release-asset@v1
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       with:
+#         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+#         asset_path: ./aclimaterapi_${{ needs.GenerateTagName.outputs.new_tag }}.tar.gz
+#         asset_name: aclimaterapi_${{ needs.GenerateTagName.outputs.new_tag }}.tar.gz
+#         asset_content_type: application/gzip
+
+# # ------- END RELEASE PROCCESS -------- #
