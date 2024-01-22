@@ -21,11 +21,16 @@ jobs:
       steps:
 
       - name: Set env
-        id: test
+        run: echo "ls"
+          
+          ls
+          
+      - name: Set
+        run: echo cd ${{ github.workspace }}
+      - name: Set env1
+        run: ls
+      - name: Set env2
         run: |
-          ls
-          cd ${{ github.workspace }}
-          ls
           [ -f ${{ github.workspace }}/DESCRIPTION ] && echo "DESCRIPTION exists."
 
 
