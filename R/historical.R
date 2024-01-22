@@ -123,17 +123,19 @@ get_historical_historicalyieldyears = function(url_root, stations){
 #' @examples
 #' url_root = "https://webapi.aclimate.org/api/"
 #' stations=c("58504f1a006cb93ed40eebe2","58504f1a006cb93ed40eebe3")
-#' df = get_forecast_crop(url_root, stations)
+#' years=c("2022","2023")
+#' df = get_historical_historicalyield(url_root, stations, years)
 #' print(head(df))
 #'
 #' @export
-get_historical_historicalyield = function(url_root, stations){
+get_historical_historicalyield = function(url_root, stations, years){
     library(httr)
     library(rjson)
-    httr::set_config(config(ssl_verifypeer = 0L)) 
+    httr::set_config(config(ssl_verifypeer = 0L))
     # Download data
     ws = paste(stations,collapse=",")
-    url = paste0(url_root,"Historical/HistoricalYield/",ws,"/json")
+    years_formated = paste(years,collapse=",")
+    url = paste0(url_root,"Historical/HistoricalYield/",ws,"/",years_formated,"/json")
     request = GET(url)
     response = content(request, as = "text", encoding = "UTF-8")
     data = fromJSON(response)

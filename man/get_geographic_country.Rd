@@ -17,7 +17,7 @@ Obtain a global list of registered countries in the AClimate system using the HT
 }
 \examples{
 url_root = "https://webapi.aclimate.org/api/"
-df = get_countries(url_root)
+df = get_geographic_country(url_root)
 print(head(df))
 
 }
