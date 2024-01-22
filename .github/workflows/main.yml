@@ -83,6 +83,7 @@ jobs:
         DEFAULT_BUMP: patch
         RELEASE_BRANCHES : stage,master
         BRANCH_HISTORY: last
+        INITIAL_VERSION: 0.1.0
 
     - name: Set env
       id: new_tag_step
