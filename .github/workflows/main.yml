@@ -21,7 +21,7 @@ jobs:
       steps:
 
       - name: Set env
-        run: echo "ls"
+        run: ls
         shell: bash
           
       - name: Set
