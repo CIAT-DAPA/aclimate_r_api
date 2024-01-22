@@ -19,7 +19,7 @@ jobs:
 
   TestScripts:
 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
     - name: Checkout code
@@ -28,7 +28,7 @@ jobs:
     - name: Set up R
       uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
       with:
-        r-version: "4.1"
+        r-version: "4.2"
 
     - name: Install dependencies
       run: |
@@ -70,7 +70,7 @@ jobs:
   PostRelease:
     needs: MergeMainScripts
     name: Create Release
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     permissions: write-all
     steps:
     # Generate Tagname
@@ -102,7 +102,7 @@ jobs:
     - name: Set up R
       uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
       with:
-        r-version: "4.1"
+        r-version: "4.2"
 
     - name: Install dependencies
       run: |
