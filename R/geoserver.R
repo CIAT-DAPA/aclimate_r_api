@@ -108,7 +108,6 @@ get_geo_mosaics = function(url_root, workspace, store_name, year, month){
     library(rjson)
     library(raster)
     httr::set_config(config(ssl_verifypeer = 0L))
-    credentials <- read.table("./geo_config.txt", header = FALSE, sep = "=")
     # Downloading data
     url = URLencode(paste0(url_root, workspace, "/ows?",
                  "service=WCS",
@@ -117,7 +116,7 @@ get_geo_mosaics = function(url_root, workspace, store_name, year, month){
                  "&coverageId=", store_name,
                  "&format=image/geotiff",
                  "&subset=Time(\"",year,"-",sprintf("%02d", month),"-01T00:00:00.000Z\")"))
-    request = GET(url, authenticate(credentials$V2[[1]], credentials$V2[[2]]))
+    request = GET(url)
 
     if (request$status_code == 200) {
         temp_tiff <- tempfile(fileext = ".tif")
