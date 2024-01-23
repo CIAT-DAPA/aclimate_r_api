@@ -2,20 +2,22 @@
 % Please edit documentation in R/geoserver.R
 \name{get_geo_mosaics}
 \alias{get_geo_mosaics}
-\title{Get geoserver get_geo_mosaics}
+\title{Get geoserver mosaics}
 \usage{
-get_geo_mosaics(url_root, workspace, store_name, year, month)
+get_geo_mosaics(url_root, workspace, mosaic_name, year, month = 1, day = 1)
 }
 \arguments{
 \item{url_root}{Url root where the Geoserver is located.}
 
-\item{workspace}{Name of the workspace from which the datastores are to be obtained.}
+\item{workspace}{Name of the workspace from which the mosaics datastores are to be obtained.}
 
-\item{store_name}{Name of the store from which the mosaics are to be obtained.}
+\item{mosaic_name}{Name of the store from which the mosaics are to be obtained.}
 
-\item{year}{Year by which the mosaic will be filtered.}
+\item{year}{Year by which the mosaic will be filtered. Integer}
 
-\item{month}{Month by which the mosaic will be filtered.}
+\item{month}{Month by which the mosaic will be filtered. Integer (Optional, default value 1)}
+
+\item{day}{Day by which the mosaic will be filtered. Integer (Optional, default value 1)}
 }
 \value{
 A raster with mosaic information or Null if an error is encountered, it will also be printed to the console.
@@ -26,10 +28,11 @@ Obtains the desired mosaic from the GeoServer using the HTTP GET method, by usin
 \examples{
 url_root = "https://geo.aclimate.org/geoserver/"
 workspace = "climate_indices_pe"
-store_name = "freq_rh80_t_20_25"
+mosaic_name = "freq_rh80_t_20_25"
 year = 2014
 month = 5
-obj_f = get_geo_mosaics(url_root, workspace, store_name, year, month)
+day = 1
+obj_f = get_geo_mosaics(url_root, workspace, mosaic_name, year, month, day)
 print(obj_f)
 
 }

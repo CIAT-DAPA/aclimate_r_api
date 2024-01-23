@@ -32,7 +32,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        install.packages(c("httr", "rjson", "raster", "webmockr", "testthat"))
+        install.packages(c("httr", "rjson", "raster", "sf", "webmockr", "testthat"))
       shell: Rscript {0}
 
     - name: Run Tests
@@ -94,7 +94,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        install.packages(c("httr", "rjson", "raster", "devtools", "roxygen2"))
+        install.packages(c("httr", "rjson", "raster", "sf", "devtools", "roxygen2"))
       shell: Rscript {0}
 
     - name: Update version in DESCRIPTION

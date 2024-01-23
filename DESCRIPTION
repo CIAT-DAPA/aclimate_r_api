@@ -1,7 +1,7 @@
 Package: aclimaterapi
 Type: Package
 Title: AClimate R API Package
-Version: 0.1.3
+Version: 0.1.4
 Date: 2023-11-15
 Authors@R: person("Steven", "Sotelo", email = "stevenbetancurt@hotmail.com",role = c("aut", "cre"))
 Description: The AClimate R API package is a comprehensive R interface for accessing the AClimate Web API.
@@ -19,4 +19,5 @@ Suggests:
 Imports:
     httr (>= 1.4.2),
     rjson (>= 0.2.20),
-    raster (>= 3.6.3)
+    raster (>= 3.6.3),
+    sf (>= 1.0-14)
