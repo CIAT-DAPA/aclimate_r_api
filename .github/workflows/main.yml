@@ -32,7 +32,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        install.packages(c("httr", "rjson", "webmockr", "testthat"))
+        install.packages(c("httr", "rjson", "raster", "webmockr", "testthat"))
       shell: Rscript {0}
 
     - name: Run Tests
@@ -82,6 +82,11 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
+    - name: Create geo_config
+      run: |
+        GEO_CONFIG=$(echo "${{ secrets.GEO_CONFIG }}")
+        echo "$GEO_CONFIG" > geo_config.txt
+
     - name: Set up R
       uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
       with:
@@ -89,7 +94,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        install.packages(c("httr", "rjson", "devtools", "roxygen2"))
+        install.packages(c("httr", "rjson", "raster", "devtools", "roxygen2"))
       shell: Rscript {0}
 
     - name: Update version in DESCRIPTION

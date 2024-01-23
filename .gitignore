@@ -5,6 +5,7 @@
 inst/doc
 .DS_Store
 
+geo_config.txt
 
 # Test
 /.ipynb_checkpoints
