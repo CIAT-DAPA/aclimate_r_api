@@ -18,5 +18,5 @@ Suggests:
     rmarkdown
 Imports:
     httr (>= 1.4.2),
-    rjson (>= 0.2.20)
+    rjson (>= 0.2.20),
     raster (>= 3.6.3)
