@@ -19,4 +19,5 @@ Suggests:
 Imports:
     httr (>= 1.4.2),
     rjson (>= 0.2.20),
-    raster (>= 3.6.3)
+    raster (>= 3.6.3),
+    sf (>= 1.0-14)
