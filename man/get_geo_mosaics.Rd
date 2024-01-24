@@ -32,7 +32,7 @@ mosaic_name = "freq_rh80_t_20_25"
 year = 2014
 month = 5
 day = 1
-obj_f = get_geo_mosaics(url_root, workspace, mosaic_name, year, month, day)
-print(obj_f)
+raster = get_geo_mosaics(url_root, workspace, mosaic_name, year, month, day)
+print(raster)
 
 }

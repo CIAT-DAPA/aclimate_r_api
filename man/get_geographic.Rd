@@ -19,8 +19,8 @@ Retrieve detailed information on states, municipalities, weather stations, and c
 }
 \examples{
 url_root = "https://webapi.aclimate.org/api/"
-country = "61e59d829d5d2486e18d2ea8"
-df = get_geographic(url_root,country)
+country_id = "61e59d829d5d2486e18d2ea8"
+df = get_geographic(url_root, country_id)
 print(head(df))
 
 }
