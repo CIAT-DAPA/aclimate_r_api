@@ -106,8 +106,8 @@ get_geo_mosaic_name = function(url_root, workspace){
 #' year = 2014
 #' month = 5
 #' day = 1
-#' obj_f = get_geo_mosaics(url_root, workspace, mosaic_name, year, month, day)
-#' print(obj_f)
+#' raster = get_geo_mosaics(url_root, workspace, mosaic_name, year, month, day)
+#' print(raster)
 #'
 #' @export
 get_geo_mosaics = function(url_root, workspace, mosaic_name, year, month=1, day=1){
@@ -209,8 +209,8 @@ get_geo_polygon_name = function(url_root, workspace){
 #' url_root = "https://geo.aclimate.org/geoserver/"
 #' workspace = "administrative"
 #' polygon_name = "ao_adm1"
-#' obj_f = get_geo_polygons(url_root, workspace, polygon_name)
-#' print(obj_f)
+#' shapefile = get_geo_polygons(url_root, workspace, polygon_name)
+#' print(shapefile)
 #'
 #' @export
 get_geo_polygons = function(url_root, workspace, polygon_name){
