@@ -23,7 +23,7 @@ Obtains the desired shapefile from the GeoServer using the HTTP GET method, by u
 url_root = "https://geo.aclimate.org/geoserver/"
 workspace = "administrative"
 polygon_name = "ao_adm1"
-obj_f = get_geo_polygons(url_root, workspace, polygon_name)
-print(obj_f)
+shapefile = get_geo_polygons(url_root, workspace, polygon_name)
+print(shapefile)
 
 }

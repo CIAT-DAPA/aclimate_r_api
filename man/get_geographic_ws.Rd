@@ -19,8 +19,8 @@ Retrieve detailed information weather stations, and crop-related details for a s
 }
 \examples{
 url_root = "https://webapi.aclimate.org/api/"
-country = "61e59d829d5d2486e18d2ea8"
-ws_list = get_geographic_ws(url_root,country)
+country_id = "61e59d829d5d2486e18d2ea8"
+ws_list = get_geographic_ws(url_root, country_id)
 print(head(ws_list))
 
 }
