@@ -348,7 +348,7 @@ Build package
 devtools::build()
 ```
 
-# User guide:
+# Repository management:
 
 ### 3 main branches are managed.
 
