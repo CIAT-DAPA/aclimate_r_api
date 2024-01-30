@@ -10,7 +10,7 @@ forecasts offered by the AClimate platform.
 - Source code [source code](https://github.com/CIAT-DAPA/aclimaterapi/).
 - Documentation of Web API and Dictionary of variable [documentation](https://docs.aclimate.org/en/latest/08-webapi.html).
 - Depends **R (>= 4.2)**
-- Author [stevensotelo](https://github.com/stevensotelo)
+- Author [stevensotelo](https://github.com/stevensotelo), [scalderon](https://github.com/santiago123x)
 
 ## Key Features
 
@@ -22,6 +22,8 @@ forecasts offered by the AClimate platform.
 
 ## Install
 
+**Installation from GitHub**
+
 The easiest way to install the package is from [Github repository](https://github.com/CIAT-DAPA/aclimaterapi/) and using devtools.
 
 ```r
@@ -29,6 +31,16 @@ devtools::install_github("CIAT-DAPA/aclimaterapi")
 ```
 
 The above command, when executed in R, downloads and installs the `AClimate R API` from official repository `CIAT-DAPA`.
+
+**Manual Installation from ZIP File**
+
+You can also download the ZIP file from the [Release](https://github.com/CIAT-DAPA/aclimaterapi/releases) section and manually install it using the following command:
+
+```r
+install.packages("/file_path/aclimaterapi_x.x.x.tar.gz", repos = NULL, type = "source")
+```
+
+Replace "/file_path/" with the location of your downloaded file.
 
 ## Remove
 
@@ -314,39 +326,58 @@ print(shapefile)
 
 ### Configure dev environment
 
-Install the following packages
+To set up your development environment, start by installing the necessary packages in R. You can do this by running the following commands:
 
 ```r
 install.packages("devtools")
 install.packages("roxygen2")
+install.packages("httr")
+install.packages("rjson")
+install.packages("raster")
+install.packages("sf")
 ```
+
+These commands install the devtools and roxygen2 libraries, which are essential for package development.
 
 ### Build package
 
-Import libraries
+Once you've installed the required libraries, import them into your R session by running the following commands:
 
 ```r
 library(devtools)
 library(roxygen2)
+library(httr)
+library(rjson)
+library(raster)
+library(sf)
 ```
 
-Call the packages
+After importing the libraries, set your working directory to the location of the package source code:
 
 ```r
 setwd("/path/source_code/")
 ```
 
-Build documentation
+Replace "/path/source_code/" with the actual location of your package's source code.
+
+Proceed to build the package documentation by running the following command:
 
 ```r
 devtools::document()
 ```
 
-Build package
+This command generates the documentation associated with the package.
+
+Finally, to build the package, execute the following command:
 
 ```r
 devtools::build()
 ```
+
+This last step compiles the package, creating a compressed file containing everything needed for distribution.
+
+> [!NOTE]
+> The final section involving devtools is optional and intended for local package creation. If you wish to contribute, follow the steps outlined in the next section, **"Repository Management."** By submitting a pull request to the **"stage"** branch, the documentation will be automatically updated, and a new release will be created.
 
 # Repository management:
 
