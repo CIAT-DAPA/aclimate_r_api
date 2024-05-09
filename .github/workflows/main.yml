@@ -41,6 +41,7 @@ jobs:
 
     - name: Run Tests
       run: |
+        library(terra)
         library(testthat)
         test_dir("tests");
       shell: Rscript {0}
