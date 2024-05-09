@@ -112,6 +112,7 @@ get_geo_mosaic_name = function(url_root, workspace){
 #' @export
 get_geo_mosaics = function(url_root, workspace, mosaic_name, year, month=1, day=1){
     library(httr)
+    library(terra)
     library(raster)
     httr::set_config(config(ssl_verifypeer = 0L))
     # Downloading data
