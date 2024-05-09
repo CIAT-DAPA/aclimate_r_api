@@ -34,18 +34,15 @@ jobs:
       with:
         r-version: "4.2"
 
-    - name: Install GDAL dependencies
-      run: |
-        brew install gdal
-
     - name: Install dependencies
       run: |
-        install.packages(c("httr", "rjson", "terra", "raster", "sf", "webmockr", "testthat"))
+        install.packages(c("httr", "rjson", "raster", "sf", "webmockr", "testthat"))
       shell: Rscript {0}
 
     - name: Run Tests
       run: |
-        library(terra)
+        library(raster)
+        library(sf)
         library(testthat)
         test_dir("tests");
       shell: Rscript {0}
@@ -103,7 +100,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        install.packages(c("httr", "rjson", "raster", "sf", "devtools", "terra", "roxygen2"))
+        install.packages(c("httr", "rjson", "raster", "sf", "devtools", "roxygen2"))
       shell: Rscript {0}
 
     - name: Update version in DESCRIPTION
