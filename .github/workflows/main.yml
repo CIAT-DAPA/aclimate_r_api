@@ -34,6 +34,12 @@ jobs:
       with:
         r-version: "4.2"
 
+    - name: Install GDAL dependencies
+      run: |
+        sudo add-apt-repository -y ppa:ubuntugis/ppa
+        sudo apt-get update -q
+        sudo apt-get install -y gdal-bin libgdal-dev
+
     - name: Install dependencies
       run: |
         install.packages(c("httr", "rjson", "terra", "raster", "sf", "webmockr", "testthat"))
