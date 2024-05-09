@@ -1,6 +1,7 @@
 library(testthat)
 library(webmockr)
 library(httr)
+library(terra)
 library(raster)
 library(sf)
 
