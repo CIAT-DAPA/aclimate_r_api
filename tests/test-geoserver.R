@@ -1,6 +1,8 @@
 library(testthat)
 library(webmockr)
 library(httr)
+library(raster)
+library(sf)
 
 source("../R/geoserver.R")
 
